@@ -3,7 +3,7 @@
 
 GENERAL:
 
-I hope code is atleast a little self explanatory.
+Code should be atleast a little self explanatory.
 
 ================ Morse Code translator ================
 
