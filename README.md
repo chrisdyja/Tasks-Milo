@@ -9,7 +9,6 @@ I hope code is atleast a little self explanatory.
 
 -
 
-==============================================
 
 ================== Anagram Derivation =================
 
@@ -34,4 +33,3 @@ true -> output_chain.append(tmp)
 
 continue 
 
-==============================================
