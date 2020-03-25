@@ -1,10 +1,14 @@
 # Tasks-Milo
 
+
 GENERAL:
+
 I hope code is atleast a little self explanatory.
 
 ================ Morse Code translator ================
+
 -
+
 =======================================================
 
 ================== Anagram Derivation =================
@@ -20,13 +24,14 @@ Loop through sorted by length dictionary
 
 if (current_word.length+1 == current_word_in_sorted_dictionary)
 
-_____true -> loop through alphabet
-      
-_____________tmp = sort_by_letters(current_word+current_alphabet_letter)
+true -> loop through alphabet
+  
+tmp = sort_by_letters(current_word+current_alphabet_letter)
               
-_____________if(tmp == current_word_in_sorted_dictionary)
+if(tmp == current_word_in_sorted_dictionary)
               
-__________________true -> output_chain.append(tmp)
+true -> output_chain.append(tmp)
 
 continue 
+
 =======================================================
