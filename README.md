@@ -23,4 +23,6 @@ _____________tmp = sort_by_letters(current_word+current_alphabet_letter)
 _____________if(tmp == current_word_in_sorted_dictionary)
               
 __________________true -> ooutput_chain.append(tmp)
+
+continue
               
