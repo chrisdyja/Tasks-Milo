@@ -18,7 +18,7 @@ public:
     ~MainWindow();
 
     FileLoader *fileLoader;
-    QThread cThread, cThread2;
+    QThread fileLoaderThread, converterThread;
     MorseAsciiConverter *morseAscii;
     QString filePath;
 

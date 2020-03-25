@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow(){
-    cThread.terminate();
-    cThread2.terminate();
+    fileLoaderThread.terminate();
+    converterThread.terminate();
     delete ui;
 }
 
@@ -30,12 +30,12 @@ MainWindow::~MainWindow(){
 void MainWindow::on_pushButtonOpenFile_clicked(){
     QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath());
     fileLoader->filePath = filePath;
-    fileLoader->DoSetup(cThread);
+    fileLoader->DoSetup(fileLoaderThread);
     connect(fileLoader,SIGNAL(errorOpeningFile()), this, SLOT(onErrorOpeningFile()));
     connect(fileLoader,SIGNAL(fileLoading()), this, SLOT(onFileLoading()));
     connect(fileLoader,SIGNAL(fileUploaded(QString)), this, SLOT(onFileUploaded(QString)));
-    fileLoader->moveToThread(&cThread);
-    cThread.start();
+    fileLoader->moveToThread(&fileLoaderThread);
+    fileLoaderThread.start();
 }
 
 void MainWindow::on_pushButtonConvert_clicked(){
@@ -43,18 +43,18 @@ void MainWindow::on_pushButtonConvert_clicked(){
     morseAscii->input = textToConvert;
     if(ui->radioButtonMorseToText->isChecked()){
         morseAscii->convertToMorse = false;
-        morseAscii->DoSetup(cThread2);
+        morseAscii->DoSetup(converterThread);
         connect(morseAscii,SIGNAL(conversionComplete(QString)), this, SLOT(onConversionComplete(QString)));
-        morseAscii->moveToThread(&cThread2);
-        cThread2.start();
+        morseAscii->moveToThread(&converterThread);
+        converterThread.start();
 
          //ui->textBrowserOutput->setText(morseAscii->morseToAscii(textToConvert));
     }else{
         morseAscii->convertToMorse = true;
-        morseAscii->DoSetup(cThread2);
+        morseAscii->DoSetup(converterThread);
         connect(morseAscii,SIGNAL(conversionComplete(QString)), this, SLOT(onConversionComplete(QString)));
-        morseAscii->moveToThread(&cThread2);
-        cThread2.start();
+        morseAscii->moveToThread(&converterThread);
+        converterThread.start();
          //ui->textBrowserOutput->setText(morseAscii->asciiToMorse(textToConvert));
     }
 }
@@ -103,7 +103,7 @@ void MainWindow::onErrorOpeningFile(){
 void MainWindow::onFileUploaded(QString text){
     ui->labelFileOpenStatus->setText("");
     ui->plainTextEditInput->setPlainText(text);
-    cThread.terminate();
+    fileLoaderThread.terminate();
 }
 void MainWindow::onFileLoading(){
     ui->labelFileOpenStatus->setText("Loading...");
@@ -111,5 +111,5 @@ void MainWindow::onFileLoading(){
 
 void MainWindow::onConversionComplete(QString output){
     ui->textBrowserOutput->setText(output);
-    cThread2.terminate();
+    converterThread.terminate();
 }
