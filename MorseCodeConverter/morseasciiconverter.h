@@ -7,8 +7,19 @@
 class MorseAsciiConverter : public QObject{
     Q_OBJECT
 public:
-    explicit MorseAsciiConverter(QObject *parent = 0, bool _textToMorse = true);
+    /*!
+    * @brief class representing Morse Code converter
+    *
+    * @param *parent
+    * @param _convertToMorse flag indicating the direction of conversion-text to Morse Code or Morse Code to text
+    */
+    explicit MorseAsciiConverter(QObject *parent = 0, bool _convertToMorse = true);
 
+    /*!
+    * @brief Sets up slots for thread
+    *
+    * @param &cThread
+    */
     void DoSetup(QThread  &cThread);
 
     /*!

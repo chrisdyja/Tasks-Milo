@@ -2,8 +2,8 @@
 
 #include <QtCore>
 
-MorseAsciiConverter::MorseAsciiConverter(QObject *parent, bool _textToMorse) : QObject(parent){
-    convertToMorse = _textToMorse;
+MorseAsciiConverter::MorseAsciiConverter(QObject *parent, bool _convertToMorse) : QObject(parent){
+    convertToMorse = _convertToMorse;
 
     /*! @brief Alphabet */
     asciiMorseMap.insert("A",".-");
@@ -89,8 +89,8 @@ void MorseAsciiConverter::textToMorse(QString asciiText){
             output.append(" ");
         }else{
             output.append(asciiMorseMap.value((QChar::fromLatin1(asciiTextChars[letterIndex])).toUpper()));
-            if(letterIndex < (asciiTextCharsLength-1)){
-                output.append(" ");                         ///<add character seperator if haven't reached end of array
+            if(letterIndex < (asciiTextCharsLength-1)){     ///<if haven't reached end of array
+                output.append(" ");
             }
         }
     }
@@ -114,7 +114,7 @@ void MorseAsciiConverter::morseToText(QString morseCode){
             output.append(asciiMorseMap.key(asciiCharAsMorse));
             asciiCharAsMorse = "";
             if(morseCharIndex < (morseCharsLength - 1)){
-                if(morseChars[morseCharIndex+1] == ' '){
+                if(morseChars[morseCharIndex+1] == ' '){    ///<if found space between words
                     output.append(" ");
                     asciiCharAsMorse = "";
                     morseCharIndex++;
