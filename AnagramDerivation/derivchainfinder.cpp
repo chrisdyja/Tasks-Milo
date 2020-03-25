@@ -3,32 +3,10 @@
 #include <QtCore>
 
 DerivChainFinder::DerivChainFinder(QObject *parent, QStringList _dictionary, QString _currentWord){
-    alphabet.append("a");
-    alphabet.append("b");
-    alphabet.append("c");
-    alphabet.append("d");
-    alphabet.append("e");
-    alphabet.append("f");
-    alphabet.append("g");
-    alphabet.append("h");
-    alphabet.append("i");
-    alphabet.append("j");
-    alphabet.append("k");
-    alphabet.append("l");
-    alphabet.append("m");
-    alphabet.append("n");
-    alphabet.append("o");
-    alphabet.append("p");
-    alphabet.append("q");
-    alphabet.append("r");
-    alphabet.append("s");
-    alphabet.append("t");
-    alphabet.append("u");
-    alphabet.append("v");
-    alphabet.append("w");
-    alphabet.append("x");
-    alphabet.append("y");
-    alphabet.append("z");
+      std::string alpha = "abcdefghijklmnopqrstuvwxyz";
+      for( char c : alpha) {
+        alphabet.append((QString)c);
+      }
 
     dictionary = _dictionary;
     currentWord = _currentWord;
