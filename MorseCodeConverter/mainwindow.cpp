@@ -28,8 +28,8 @@ MainWindow::~MainWindow(){
 
 
 void MainWindow::on_pushButtonOpenFile_clicked(){
-    QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath());
-    fileLoader->filePath = filePath;
+    QString filePath_ = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath());
+    fileLoader->filePath = filePath_;
     fileLoader->DoSetup(fileLoaderThread);
     connect(fileLoader,SIGNAL(errorOpeningFile()), this, SLOT(onErrorOpeningFile()));
     connect(fileLoader,SIGNAL(fileLoading()), this, SLOT(onFileLoading()));
@@ -61,6 +61,7 @@ void MainWindow::on_pushButtonConvert_clicked(){
 
 void MainWindow::on_pushButtonSelectPath_clicked(){
     filePath = QFileDialog::getExistingDirectory(this, "Choose directory", QDir::homePath(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    //filePath +=  "/" + ui->lineEditExportFileName->text() + ".txt";
     ui->labelExportPath->setText(filePath+ "/" + ui->lineEditExportFileName->text() + ".txt");
 }
 
@@ -68,7 +69,9 @@ void MainWindow::on_pushButtonExport_clicked(){
     QRegularExpression re("[A-Za-z0-9_-]*\\.*[A-Za-z0-9]{3,4}");
 
     if(re.match(ui->lineEditExportFileName->text()).hasMatch()){
-        if(QFileInfo::exists(filePath)){
+    qDebug()<<"has match";
+        if(QFileInfo::exists(filePath + "/"  +ui->lineEditExportFileName->text() + ".txt")){
+            qDebug()<<"exists";
             QMessageBox msgBox;
             msgBox.setText("File with this name already exists.");
             msgBox.setInformativeText("Do you want to overwrite it?");
@@ -76,6 +79,7 @@ void MainWindow::on_pushButtonExport_clicked(){
             msgBox.setDefaultButton(QMessageBox::Cancel);
             int ret = msgBox.exec();
             if(ret == QMessageBox::Ok){
+                qDebug()<<"exportuje";
                 QFile file(filePath + "/" + ui->lineEditExportFileName->text() + ".txt");
                 if(!file.open(QFile::WriteOnly | QFile::Text)){
                     QMessageBox::warning(this,"Error","Failed to open file.");
@@ -87,8 +91,18 @@ void MainWindow::on_pushButtonExport_clicked(){
                 file.close();
             }
         }else{
-            QMessageBox::warning(this,"Warning!","Invalid characters in file name!");
+            QFile file(filePath + "/" + ui->lineEditExportFileName->text() + ".txt");
+            if(!file.open(QFile::WriteOnly | QFile::Text)){
+                QMessageBox::warning(this,"Error","Failed to open file.");
+            }
+            QTextStream output(&file);
+            QString text = ui->textBrowserOutput->toPlainText();
+            output << text;
+            file.flush();
+            file.close();
         }
+    }else{
+        QMessageBox::warning(this,"Warning!","Invalid characters in file name!");
     }
 }
 
